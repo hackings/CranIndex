@@ -33,13 +33,15 @@ namespace :carn_packages do
       package_authors.each do | author |
         email = author.strip.scan(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i).join
         name = author.strip.split(/<#{email}>/)[0]
-        contributor = Contributor.find_or_create_by( name: name.titleize, email: email )
+        contributor = Contributor.find_or_initialize_by( name: name.titleize)
+        contributor.update(email: email)
         package.package_authors << contributor
       end
       package_maintainers.each do | maintainer |
         email = maintainer.strip.scan(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i).join
         name = maintainer.strip.split(/<#{email}>/)[0]
-        contributor = Contributor.find_or_create_by( name: name.titleize, email: email )
+        contributor = Contributor.find_or_initialize_by( name: name.titleize)
+        contributor.update(email: email)
         package.package_maintainers << contributor
       end
       package.save
