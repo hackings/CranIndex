@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :contributor do
-    name "MyString"
-email "MyString"
+    name "John Doh"
+    email "mymail@sample.com"
   end
-
 end
