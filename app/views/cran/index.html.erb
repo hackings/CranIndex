@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing R Packages</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Version</th>
+      <th>Published date</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Authers</th>
+      <th>Maintainers</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @packages.each do |package| %>
+      <tr>
+        <td><%= package.name %></td>
+        <td><%= package.version %></td>
+        <td><%= package.published_date %></td>
+        <td><%= package.title %></td>
+        <td><%= package.description %></td>
+        <td><%= package.authers_name %></td>
+        <td><%= package.maintainers_name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
