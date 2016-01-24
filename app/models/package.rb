@@ -8,4 +8,13 @@ class Package < ActiveRecord::Base
 
   validates :name, :version, presence: true
   validates :name, uniqueness: { scope: :version }
+
+  def authers_name
+    package_authors.collect(&:name_with_email).join(", ")	
+  end 	
+
+  def maintainers_name
+    package_maintainers.collect(&:name_with_email).join(", ")	
+  end 	
+  
 end
