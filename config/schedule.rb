@@ -18,3 +18,9 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+
+every :day, :at => '12pm' do # run every day 12pm
+  set :output, Dir.pwd + "/log/fetch_package.log"
+  rake "carn_packages:fetch"
+end
+
