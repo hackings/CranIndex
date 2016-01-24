@@ -14,6 +14,8 @@ namespace :carn_packages do
       next if Package.exists?( name: package_name, version: package_version )
       
       download_string = "http://cran.r-project.org/src/contrib/#{package_name}_#{package_version}.tar.gz"
+      puts download_string
+      
       download_source = open(download_string)
       tar_files = Gem::Package::TarReader.new(Zlib::GzipReader.open(download_source))
       package_dcf = tar_files.detect{|f| f.full_name.upcase == "#{package_name}/DESCRIPTION".upcase }.read()
@@ -29,13 +31,15 @@ namespace :carn_packages do
       	published_date: package_publication_date.to_date, title: package_title, description: package_description ) 
 
       package_authors.each do | author |
-        name, email = author.strip.split(/\<(\D+)\>$/)
-        contributor = Contributor.find_or_initialize_by( name: name.strip, email: (email||'').strip )
+        email = author.strip.scan(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i).join
+        name = author.strip.split(/<#{email}>/)[0]
+        contributor = Contributor.find_or_create_by( name: name.titleize, email: email )
         package.package_authors << contributor
       end
       package_maintainers.each do | maintainer |
-        name, email = maintainer.strip.split(/\<(\D+)\>$/)
-        contributor = Contributor.find_or_initialize_by( name: name.strip, email: (email||'').strip )
+        email = author.strip.scan(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i).join
+        name = author.strip.split(/<#{email}>/)[0]
+        contributor = Contributor.find_or_create_by( name: name.titleize, email: email )
         package.package_maintainers << contributor
       end
       package.save
