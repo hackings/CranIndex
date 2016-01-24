@@ -9,5 +9,7 @@ RSpec.describe Package, type: :model do
 
   	#Associations 
   	should have_many( :package_contributors )
+  	should have_many( :package_authors ).through( :package_contributors ).source( :contributor).conditions( package_contributors: { contributor_type: 'Author'} )
+  	should have_many( :package_maintainers ).through( :package_contributors ).source( :contributor).conditions( package_contributors: { contributor_type: 'Maintainer'} )
   }
 end
